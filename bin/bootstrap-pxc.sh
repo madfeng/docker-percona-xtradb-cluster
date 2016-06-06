@@ -31,4 +31,4 @@ if [ "${PXC_INIT_SQL}" != "**ChangeMe**" -a ! -z "${PXC_INIT_SQL}" ]; then
 fi   
 
 echo "=> Starting PXC Cluster"
-/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord_bootstrap.conf
+/usr/bin/supervisord -c /etc/supervisor/supervisord_bootstrap.conf
