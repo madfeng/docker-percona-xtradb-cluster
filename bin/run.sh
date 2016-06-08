@@ -14,15 +14,22 @@ if [ "${PXC_ROOT_PASSWORD}" == "**ChangeMe**" -o -z "${PXC_ROOT_PASSWORD}" ]; th
    exit 1
 fi
 
-if [ "${PXC_NODES}" == "**ChangeMe**" -o -z "${PXC_NODES}" ]; then
-   echo "*** ERROR: you need to define PXC_NODES environment variable - Exiting ..."
-   exit 1
+if [ "${MY_IP}" == "**ChangeMe**" -o -z "${MY_IP}" ]; then
+    export MY_IP=`ip addr | grep inet | grep ${PXC_TOP_IP} | tail -1 | awk '{print $2}' | awk -F\/ '{print $1}'`
+    echo "==>MY_IP:[${MY_IP}]"
+    if [ -z "${MY_IP}" ]; then
+       echo "*** ERROR: you need to define MY_IP environment variable - Exiting ..."
+       exit 1
+    fi
 fi
 
-if [ "${MY_IP}" == "**ChangeMe**" -o -z "${MY_IP}" ]; then
-   echo "*** ERROR: you need to define MY_IP environment variable - Exiting ..."
-   exit 1
+
+if [ "${PXC_NODES}" == "**ChangeMe**" -o -z "${PXC_NODES}" ]; then
+    export PXC_NODES=${MY_IP}
+#   echo "*** ERROR: you need to define PXC_NODES environment variable - Exiting ..."
+#   exit 1
 fi
+echo "==>PXC_NODES:[${PXC_NODES}]"
 
 # Logs
 chown -R mysql ${PXC_LOGS_PATH}
