@@ -9,13 +9,12 @@ RUN echo "deb-src http://repo.percona.com/apt trusty main" >> /etc/apt/sources.l
 
 RUN apt-key adv --keyserver keys.gnupg.net --recv-keys 1C4CBDCDCD2EFD2A
 RUN apt-get update && \
-    apt-get -y install percona-xtradb-cluster-56 pwgen supervisor openssh-server sshpass xinetd wget
+    apt-get -y install percona-xtradb-cluster-56 pwgen supervisor openssh-server sshpass xinetd wget dnsutils
 
 ENV PXC_SST_PASSWORD **ChangeMe**
 ENV PXC_ROOT_PASSWORD **ChangeMe**
 ENV PXC_INIT_SQL **ChangeMe**
-ENV PXC_NODES -NODES-
-ENV MY_IP **ChangeMe**
+ENV SERVICE_NAME pxc
 
 ENV PXC_VOLUME /var/lib/mysql
 ENV PXC_LOGS_PATH /var/log/mysql
