@@ -43,7 +43,9 @@ echo "==>MY_IP:[${MY_IP}]"
 # Logs
 chown -R mysql ${PXC_LOGS_PATH}
 
-change_pxc_nodes.sh "${PXC_NODES}"
+if [ ! -e ${PXC_CONF_FLAG} ]; then
+    change_pxc_nodes.sh "${PXC_NODES}"
+fi
 echo "root:${PXC_ROOT_PASSWORD}" | chpasswd
 perl -p -i -e "s/PXC_SST_PASSWORD/${PXC_SST_PASSWORD}/g" ${PXC_CONF}
 perl -p -i -e "s/MY_IP/${MY_IP}/g" ${PXC_CONF}
@@ -56,7 +58,7 @@ echo "==========================================="
 
 # If this container is not configured, just configure it
 BOOTSTRAPED=false
-if [ ! -e ${PXC_BOOTSTRAP_FLAG} ]; then
+if [ ! -e ${PXC_CONF_FLAG} ]; then
    # Ask other containers if they're already configured
    # If so, I'm joining the cluster
    # If not, I'm bootstraping only if I'm first node in PXC_NODES - needed for cluster initialization
@@ -85,6 +87,9 @@ if [ ! -e ${PXC_BOOTSTRAP_FLAG} ]; then
          join-cluster.sh || exit 1
       fi
    fi
+elif [ "${MY_IP}" == `echo "${PXC_NODES}" | awk -F, '{print $1}'` ]; then
+    echo "=> I was already part of the cluster, starting bootstraped PXC"
+    /usr/bin/supervisord -c /etc/supervisor/supervisord_pxc_nc.conf
 else
    # If this container is already configured, just start it
    echo "=> I was already part of the cluster, starting PXC"

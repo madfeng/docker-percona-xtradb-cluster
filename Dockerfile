@@ -19,7 +19,8 @@ ENV SERVICE_NAME pxc
 ENV PXC_VOLUME /var/lib/mysql
 ENV PXC_LOGS_PATH /var/log/mysql
 ENV PXC_CONF /etc/mysql/conf.d/pxc.cnf
-ENV PXC_BOOTSTRAP_FLAG ${PXC_VOLUME}/pxcbootstrapped
+ENV PXC_CONF_FLAG ${PXC_VOLUME}/pxc.configured
+ENV PXC_BOOTSTRAP_FLAG ${PXC_VOLUME}/pxc.bootstrapped
 ENV SSH_USER root
 ENV SSH_PORT 2222
 ENV SSH_OPTS -p ${SSH_PORT} -o ConnectTimeout=20 -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no
