@@ -39,32 +39,9 @@ if [ -z "${MY_IP}" ]; then
    exit 1
 fi
 echo "==>MY_IP:[${MY_IP}]"
-#----------
-
-#if [ "${MY_IP}" == "**ChangeMe**" -o -z "${MY_IP}" ]; then
-#    echo "==>PXC_TOP_IP:[${PXC_TOP_IP}]"
-#    export MY_IP=`ip addr | grep inet | grep ${PXC_TOP_IP} | tail -1 | awk '{print $2}' | awk -F\/ '{print $1}'`
-#    echo "==>MY_IP:[${MY_IP}]"
-#    if [ -z "${MY_IP}" ]; then
-#       echo "*** ERROR: you need to define MY_IP environment variable - Exiting ..."
-#       exit 1
-#    fi
-#fi
-#
-#
-#if [ "${PXC_NODES}" == "-NODES-" -o -z "${PXC_NODES}" ]; then
-#    export PXC_NODES=${MY_IP}
-#else
-#    export PXC_NODES="${PXC_NODES},${MY_IP}"
-#fi
-
 
 # Logs
 chown -R mysql ${PXC_LOGS_PATH}
-
-# Configure the cluster (replace required parameters)
-
-#echo "=> Configuring PXC cluster"
 
 change_pxc_nodes.sh "${PXC_NODES}"
 echo "root:${PXC_ROOT_PASSWORD}" | chpasswd
